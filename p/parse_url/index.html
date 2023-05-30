@@ -16,7 +16,7 @@
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 parse_url — 解析 URL，返回其组成部分 print_r(parse_url(&amp;#39;http://username:password@127.0.0.1:8080/index.php?id=1#abc&amp;#39;)); 输出为: Array ( [scheme] =&amp;gt; http [host] =&amp;gt; 127.0.0.1 [port] =&amp;gt; 8080 [user] =&amp;gt; username [pass] =&amp;gt; password [path] =&amp;gt; /index.php [query] =&amp;gt; id=1 [fragment] =&amp;gt; abc ) 第一关 1 2 3 $data = parse_url($_GET[&amp;#39;u&amp;#39;]); eval($data[&amp;#39;host&amp;#39;]); 题目分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;?'>
 <meta property='og:url' content='https://relish1one.github.io/p/parse_url/'>
 <meta property='og:site_name' content='R1one&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-05-17T23:16:11&#43;08:00'/><meta property='article:modified_time' content='2023-05-17T23:16:11&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ctf' /><meta property='article:tag' content='web' /><meta property='article:tag' content='ctfshow' /><meta property='article:tag' content='parse_url' /><meta property='article:published_time' content='2023-05-17T23:16:11&#43;08:00'/><meta property='article:modified_time' content='2023-05-17T23:16:11&#43;08:00'/>
 <meta name="twitter:title" content="PARSE_URL">
 <meta name="twitter:description" content="每周大挑战——PARSE_URL parse_url()函数 此函数返回一个关联数组，包含现有 URL 的各种组成部分。
 如果缺少了其中的某一个，则不会为这个组成部分创建数组项。
@@ -1188,6 +1188,18 @@
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/ctf/">ctf</a>
+        
+            <a href="/tags/web/">web</a>
+        
+            <a href="/tags/ctfshow/">ctfshow</a>
+        
+            <a href="/tags/parse_url/">parse_url</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
