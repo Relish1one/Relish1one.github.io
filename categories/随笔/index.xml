@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>随笔 on R1one&#39;s Blog</title>
+        <link>https://relish1one.github.io/categories/%E9%9A%8F%E7%AC%94/</link>
+        <description>Recent content in 随笔 on R1one&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 17 May 2023 23:14:13 +0800</lastBuildDate><atom:link href="https://relish1one.github.io/categories/%E9%9A%8F%E7%AC%94/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>博客搭建</title>
+        <link>https://relish1one.github.io/p/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+        <pubDate>Wed, 17 May 2023 23:14:13 +0800</pubDate>
+        
+        <guid>https://relish1one.github.io/p/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
+        <description>&lt;h1 id=&#34;碎碎念一下记录自己博客搭建过程&#34;&gt;碎碎念一下，记录自己博客搭建过程&lt;/h1&gt;
+&lt;p&gt;​		这里必须承认，理论与实践的完美结合才是王炸，而我个人的动手能力确实不尽如人意。然而，当看到自己的博客逐渐有了雏形，最终成功地部署在GitHub上时，内心还是很激动。&lt;/p&gt;
+&lt;p&gt;​		从寒假开始，搭建一个属于自己的博客的构想在我心中萌芽，但是发育过程还是历经了几番波折，先是选择了Hexo框架，没有成功，不久后又转而投入Hugo框架。在这个过程中，参考了许多文章，然而，实话实说，由于我自身的知识储备相对贫乏，动手能力也实属菜鸟水平，一直没能搭建成功，渐渐搁置了。&lt;/p&gt;
+&lt;p&gt;​		开学以后，开始着手学习Web，已经接触大概有了近三个月的时间，提升了一点解决问题的能力。最近这几天，可能是学习web学的有点自我怀疑，想找个其他事情转移下，又开始了新一次博客搭建，哈哈哈~就是一个很平凡的晚上，终于达成了搭建博客的目标，当可以用域名访问的那一刻，还是欣喜万分，虽然这确实是一个不需要啥技术含量的事情。&lt;/p&gt;
+&lt;p&gt;​		以下是最后一次搭建成功时所参考的文章，贴一下链接：&lt;/p&gt;
+&lt;p&gt;​		首先，推荐一篇题为《如何用 GitHub Pages + Hugo 搭建个人博客》的文章，其中详细介绍了整个搭建过程：&lt;a class=&#34;link&#34; href=&#34;https://cuttontail.blog/blog/create-a-wesite-using-github-pages-and-hugo/#9-%e5%8f%91%e5%b8%83%e5%86%85%e5%ae%b9&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;如何用 GitHub Pages + Hugo 搭建个人博客&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​		其次，使用的博客主题是JuiceBar，详情可参考以下链接：&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/themes/hugo-juicebar/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;主题JuiceBar&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​		另外，遇到了一个关于权限的问题，当时我无法使用&lt;a class=&#34;link&#34; href=&#34;mailto:git@github.com&#34; &gt;git@github.com&lt;/a&gt;进行远程仓库操作，但在这篇文章中找到了解决办法：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/ywl470812087/article/details/104459288&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;解决git@github.com: Permission denied (publickey). Could not read from remote repository&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​		最后，还想推荐一篇名为《Hugo搭建博客（一）— 基本设置》的文章，其中详细介绍了Hugo的基本配置和设置：&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/1722255?from=15425&amp;amp;areaSource=102001.1&amp;amp;traceId=osI2VLt2IEly9MMKovLH4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hugo搭建博客（一）— 基本设置&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​		在这个漫长而曲折的过程中，漫长是指从出具想法到成功实现的时间吧，从寒假到五月份，也确实蛮久了，曲折，确实是来来回回尝试了好几次了（这里没有说利用博客搭建很难的问题，还是自己菜的原因）。尽管这个过程的困惑和挫折不可避免，但多尝试，多动手，总会实现自己的目标呀。&lt;/p&gt;
+&lt;p&gt;​		这个过程，自己还是感想蛮多，但是这里言简意赅。&lt;/p&gt;
+&lt;p&gt;​		稳住心态，注重实践，少年的征途是远方。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
